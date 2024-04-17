@@ -5,6 +5,7 @@
 ## First, try to get things to work via Postman.com
 
 This video shows how to use Postman to connect to E*Trade API:
+
   https://www.youtube.com/watch?v=1u9wCHYoygQ
 
 The above has a lot of copy/paste/decode, so it's better to automate this in Postman.  This video is useful on showing how to automate a (Flickr) flow in OAuth 1.0 with Postman:
@@ -47,11 +48,11 @@ https://us.etrade.com/e/t/etws/authorize?key=YOUR-VERY-PERM-KEY&token={{oauthTok
 
 Where  {{oauthTokenGetRequest}} is a Postman environment variable obtained by the above code snippet in the Get Request.
 
-To obtain the E*Trade authorization URL, you can open the Console in Postman (lower left), hit SEND for the 'authorize' URL, and copy and paste the resulting URL into your browser.  Accept the E*Trade terms and then copy the 5-char verifier into your Postman environment variables.
+To obtain the ETrade authorization URL, you can open the Console in Postman (lower left), hit SEND for the 'authorize' URL, and copy and paste the resulting URL into your browser.  Accept the ETrade terms and then copy the 5-char verifier into your Postman environment variables.
 
 Subsequent Postman GET requests seemed to work fine after setting Postman environment variables (24-hour token and tokenSecret done via above snippets). You really don't need the 5-char verifier nor callback variables for subsequent requests.
 
-For PUT and POST requests, in Postman I set the Body (POST data) to raw XML.  You may be able to use JSON POST data with a '?format=json' query parameter attached to the request, but it seems like XML is better supported by E*Trade.
+For PUT and POST requests, in Postman I set the Body (POST data) to raw XML.  You may be able to use JSON POST data with a '?format=json' query parameter attached to the request, but it seems like XML is better supported by ETrade.
 
 
 
@@ -82,7 +83,7 @@ The $signKey is simply:
   $signKey = $reallyPermanentConsumerSecret . rawurlencode($tokenSecret_24Hour);
 ```
 
-Note the $tokenSecret_24Hour may have a value of '' during the GetRequest - Authorize by hand at etrade.com - Get Access phases.
+Note the ```$tokenSecret_24Hour``` may have a value of '' (null) during the GetRequest - Authorize by hand at etrade.com - Get Access phases.
 
 To troubleshoot issues in the signature (really issues in the $baseString), the following tools are useful:
 
@@ -120,10 +121,6 @@ The second problem of sending XML POST/PUT data to E*Trade API can be fixed with
           "Authorization: OAuth " . $oauthHeader
         );
 ```
-
-
-
-
 
 
 ## OTHER RESOURCES
