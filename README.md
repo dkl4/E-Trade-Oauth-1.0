@@ -1,9 +1,9 @@
 2024-03-28
 
-#Notes on getting E*Trade API to work in PHP environment without using OAuth 1.0 library
+# Notes on getting E*Trade API to work in PHP environment without using OAuth 1.0 library
 
 
-##First, try to get things to work via Postman.com
+## First, try to get things to work via Postman.com
 
 This video shows how to use Postman to connect to E*Trade API:
   https://www.youtube.com/watch?v=1u9wCHYoygQ
@@ -12,7 +12,7 @@ The above has a lot of copy/paste/decode, so it's better to automate this in Pos
 
   https://www.youtube.com/watch?v=3gXPjj5iEAA
 
-###Here is some Get Request 'Tests' code that is useful for Postman automation:
+### Here is some Get Request 'Tests' code that is useful for Postman automation:
 
 ```javascript
 const collection = require('postman-collection');
@@ -22,9 +22,10 @@ pm.environment.set("oauthTokenGetRequest",       params[0].value);
 pm.environment.set("oauthTokenSecretGetRequest", params[1].value);
 pm.environment.set("oauthTokenGetRequestDecode",       decodeURIComponent(params[0].value));
 pm.environment.set("oauthTokenSecretGetRequestDecode", decodeURIComponent(params[1].value));
+```
 
 
-###Here is some Get Access 'Tests' code that is useful in Postman:
+### Here is some Get Access 'Tests' code that is useful in Postman:
 
 ```javascript
 const collection = require('postman-collection');
@@ -34,6 +35,7 @@ pm.environment.set("oauthTokenGetAccess",       params[0].value);
 pm.environment.set("oauthTokenSecretGetAccess", params[1].value);
 pm.environment.set("oauthTokenGetAccessDecode",       decodeURIComponent(params[0].value));
 pm.environment.set("oauthTokenSecretGetAccessDecode", decodeURIComponent(params[1].value));
+```
 
 The above two code snippets will set up the temporary  oauthTokenGetRequest and  oauthTokenSecretGetRequest variables you will need to get  the "permanent" (24 hour - until midnight NY)  oauthTokenGetAccess and  oauthTokenSecretGetAccess variables.
 
@@ -54,7 +56,7 @@ For PUT and POST requests, in Postman I set the Body (POST data) to raw XML.  Yo
 
 
 
-##Automating with PHP
+## Automating with PHP
 
 I tried using various PHP OAuth 1.0 Pecl extensions and classes, but I either had trouble or didn't seem worth the effort.
 
@@ -107,6 +109,7 @@ foreach ($params as $key => $valueArray){
   //all values must sorted in alphabetical order 
   sort($valueArray); 
 …
+```
 
 The second problem of sending XML POST/PUT data to E*Trade API can be fixed with adding xml to the Content-Type:
 
@@ -115,13 +118,14 @@ The second problem of sending XML POST/PUT data to E*Trade API can be fixed with
           'Content-Type: application/xml',
           "Authorization: OAuth " . $oauthHeader
         );
+```
 
 
 
 
 
 
-##OTHER RESOURCES
+## OTHER RESOURCES
 
   See this (old) script for Twitter OAuth 1.0 :
   
@@ -131,7 +135,7 @@ The second problem of sending XML POST/PUT data to E*Trade API can be fixed with
   A couple changes were made for E*Trade OAuth 1.0a (namely GET for E*Trade), but 
   otherwise the 2011 Twitter code works.
 
-  ###Other resources:
+  ### Other resources:
     https://community.postman.com/t/is-there-a-way-to-trace-or-simulate-oauth-signature-creation/49138/2
     https://lti.tools/oauth/
     
