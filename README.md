@@ -1,9 +1,9 @@
 2024-03-28
 
-Notes on getting E*Trade API to work in PHP environment without using OAuth 1.0 library
+#Notes on getting E*Trade API to work in PHP environment without using OAuth 1.0 library
 
 
-First, try to get things to work via Postman.com
+##First, try to get things to work via Postman.com
 
 This video shows how to use Postman to connect to E*Trade API:
   https://www.youtube.com/watch?v=1u9wCHYoygQ
@@ -12,8 +12,9 @@ The above has a lot of copy/paste/decode, so it's better to automate this in Pos
 
   https://www.youtube.com/watch?v=3gXPjj5iEAA
 
-Here is some Get Request 'Tests' code that is useful for Postman automation:
+###Here is some Get Request 'Tests' code that is useful for Postman automation:
 
+```javascript
 const collection = require('postman-collection');
 const params = collection.QueryParam.parse(pm.response.text());
 console.log(params);
@@ -23,8 +24,9 @@ pm.environment.set("oauthTokenGetRequestDecode",       decodeURIComponent(par
 pm.environment.set("oauthTokenSecretGetRequestDecode", decodeURIComponent(params[1].value));
 
 
-Here is some Get Access 'Tests' code that is useful in Postman:
+###Here is some Get Access 'Tests' code that is useful in Postman:
 
+```javascript
 const collection = require('postman-collection');
 const params = collection.QueryParam.parse(pm.response.text());
 console.log(params);
@@ -39,6 +41,7 @@ Also use Postman environment variables to track things like the "very permanent"
 
 The login URL used to get the 5-char verifier can be obtained from Postman with a GET request like this:
 
+```
 https://us.etrade.com/e/t/etws/authorize?key=YOUR-VERY-PERM-KEY&token={{oauthTokenGetRequest}}
 
 Where  {{oauthTokenGetRequest}} is a Postman environment variable obtained by the above code snippet in the Get Request.
@@ -51,7 +54,7 @@ For PUT and POST requests, in Postman I set the Body (POST data) to raw XML.  Yo
 
 
 
-Automating with PHP
+##Automating with PHP
 
 I tried using various PHP OAuth 1.0 Pecl extensions and classes, but I either had trouble or didn't seem worth the effort.
 
@@ -97,6 +100,7 @@ https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_1542835721
 
 Note that code loads the $params array with array values, which seems odd:
 
+```php
 $params['oauth_version'] = array($version); 
 …
 foreach ($params as $key => $valueArray){ 
@@ -106,6 +110,7 @@ foreach ($params as $key => $valueArray){
 
 The second problem of sending XML POST/PUT data to E*Trade API can be fixed with adding xml to the Content-Type:
 
+```php
         $headers = array(
           'Content-Type: application/xml',
           "Authorization: OAuth " . $oauthHeader
@@ -116,7 +121,7 @@ The second problem of sending XML POST/PUT data to E*Trade API can be fixed with
 
 
 
-OTHER RESOURCES
+##OTHER RESOURCES
 
   See this (old) script for Twitter OAuth 1.0 :
   
@@ -126,7 +131,7 @@ OTHER RESOURCES
   A couple changes were made for E*Trade OAuth 1.0a (namely GET for E*Trade), but 
   otherwise the 2011 Twitter code works.
 
-  Other resources:
+  ###Other resources:
     https://community.postman.com/t/is-there-a-way-to-trace-or-simulate-oauth-signature-creation/49138/2
     https://lti.tools/oauth/
     
