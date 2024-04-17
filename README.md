@@ -2,7 +2,6 @@
 
 # Notes on getting E*Trade API to work in PHP environment without using OAuth 1.0 library
 
-
 ## First, try to get things to work via Postman.com
 
 This video shows how to use Postman to connect to E*Trade API:
@@ -24,7 +23,6 @@ pm.environment.set("oauthTokenGetRequestDecode",       decodeURIComponent(par
 pm.environment.set("oauthTokenSecretGetRequestDecode", decodeURIComponent(params[1].value));
 ```
 
-
 ### Here is some Get Access 'Tests' code that is useful in Postman:
 
 ```javascript
@@ -45,6 +43,7 @@ The login URL used to get the 5-char verifier can be obtained from Postman with 
 
 ```
 https://us.etrade.com/e/t/etws/authorize?key=YOUR-VERY-PERM-KEY&token={{oauthTokenGetRequest}}
+```
 
 Where  {{oauthTokenGetRequest}} is a Postman environment variable obtained by the above code snippet in the Get Request.
 
@@ -79,7 +78,9 @@ The first problem seemed to be a problem with the OAuth signature.  The signatur
 The baseString is a pretty long combination of the HTTP method along with all the OAuth and other (query etc.) parameters in a key-sorted way.
 
 The $signKey is simply:
+```
   $signKey = $reallyPermanentConsumerSecret . rawurlencode($tokenSecret_24Hour);
+```
 
 Note the $tokenSecret_24Hour may have a value of '' during the GetRequest - Authorize by hand at etrade.com - Get Access phases.
 
