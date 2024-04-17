@@ -12,7 +12,7 @@ The above has a lot of copy/paste/decode, so it's better to automate this in Pos
 
   https://www.youtube.com/watch?v=3gXPjj5iEAA
 
-### Here is some Get Request 'Tests' code that is useful for Postman automation:
+### Here is some Get Request 'Tests' (tab) code that is useful for Postman automation:
 
 ```javascript
 const collection = require('postman-collection');
@@ -24,7 +24,7 @@ pm.environment.set("oauthTokenGetRequestDecode",       decodeURIComponent(par
 pm.environment.set("oauthTokenSecretGetRequestDecode", decodeURIComponent(params[1].value));
 ```
 
-### Here is some Get Access 'Tests' code that is useful in Postman:
+### Here is some Get Access 'Tests' (tab) code that is useful in Postman:
 
 ```javascript
 const collection = require('postman-collection');
@@ -38,7 +38,7 @@ pm.environment.set("oauthTokenSecretGetAccessDecode", decodeURIComponent(params[
 
 The above two code snippets will set up the temporary  oauthTokenGetRequest and  oauthTokenSecretGetRequest variables you will need to get  the "permanent" (24 hour - until midnight NY)  oauthTokenGetAccess and  oauthTokenSecretGetAccess variables.
 
-Also use Postman environment variables to track things like the "very permanent" consumer_key and consumer_secret which you get from the E*Trade website.  Also track the callback_url and 5-char verifier (from logging into E*Trade) as Postman variables.
+Also use Postman environment variables to track things like the "very permanent" consumer_key and consumer_secret which you get from the ETrade website.  Also track the callback_url and 5-char verifier (from logging into ETrade) as Postman variables.
 
 The login URL used to get the 5-char verifier can be obtained from Postman with a GET request like this:
 
@@ -46,14 +46,13 @@ The login URL used to get the 5-char verifier can be obtained from Postman with 
 https://us.etrade.com/e/t/etws/authorize?key=YOUR-VERY-PERM-KEY&token={{oauthTokenGetRequest}}
 ```
 
-Where  {{oauthTokenGetRequest}} is a Postman environment variable obtained by the above code snippet in the Get Request.
+Where  ```{{oauthTokenGetRequest}}``` is a Postman environment variable obtained by the above code snippet in the Get Request.
 
 To obtain the ETrade authorization URL, you can open the Console in Postman (lower left), hit SEND for the 'authorize' URL, and copy and paste the resulting URL into your browser.  Accept the ETrade terms and then copy the 5-char verifier into your Postman environment variables.
 
 Subsequent Postman GET requests seemed to work fine after setting Postman environment variables (24-hour token and tokenSecret done via above snippets). You really don't need the 5-char verifier nor callback variables for subsequent requests.
 
 For PUT and POST requests, in Postman I set the Body (POST data) to raw XML.  You may be able to use JSON POST data with a '?format=json' query parameter attached to the request, but it seems like XML is better supported by ETrade.
-
 
 
 ## Automating with PHP
@@ -78,7 +77,7 @@ The first problem seemed to be a problem with the OAuth signature.  The signatur
 
 The baseString is a pretty long combination of the HTTP method along with all the OAuth and other (query etc.) parameters in a key-sorted way.
 
-The $signKey is simply:
+The ```$signKey``` is simply:
 ```
   $signKey = $reallyPermanentConsumerSecret . rawurlencode($tokenSecret_24Hour);
 ```
@@ -91,6 +90,8 @@ https://web.archive.org/web/20160430150356/http://oauth.googlecode.com:80/svn/co
 
 (newer version of SVN repo here?? : https://github.com/johan/oauth-js/blob/master/example/signature.html)
 
+This link is useful to test OAuth parameters:
+
 https://lti.tools/oauth/
 
 
@@ -98,7 +99,7 @@ The signature.html page allows you to plug in various OAuth 1.0 parameters (time
 what my code was yielding.
 
 
-To get proper formation of the $baseString with query parameters, I found this code worked:
+To get proper formation of the ```$baseString``` with query parameters, I found this code worked:
 
 https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_1542835721.html#subsect_1542835740
 
