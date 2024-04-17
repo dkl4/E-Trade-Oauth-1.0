@@ -146,8 +146,8 @@ The second problem of sending XML POST/PUT data to E*Trade API can be fixed with
     https://stackoverflow.com/questions/65293367/php-url-query-parameters-in-etsy-oauth-1-0-not-working
 
 #### Example XML to place and cancel orders:
-  https://www.example-code.com/dotnet-core/etrade_place_order.asp
-  https://www.example-code.com/java/etrade_cancel_order.asp
+    https://www.example-code.com/dotnet-core/etrade_place_order.asp
+    https://www.example-code.com/java/etrade_cancel_order.asp
 
 
 
